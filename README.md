@@ -1,7 +1,7 @@
 # algorand-offchain-worker
 
 
-![PT2](https://raw.githubusercontent.com/ubinix-warun/algoran-offchain-worker/doc/assets/main/doc/images/flow_ui.png)
+![PT2](https://raw.githubusercontent.com/ubinix-warun/algoran-offchain-worker/doc/assets/main/doc/assets/proto_indexer2.png)
 
 ```
 gvm use go1.13.8
