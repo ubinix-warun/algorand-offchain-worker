@@ -1,0 +1,4 @@
+[submodule "demo/algorand-indexer"]
+	path = demo/algorand-indexer
+	url = https://github.com/ubinix-warun/algorand-indexer.git
+	branch = develop-pub
