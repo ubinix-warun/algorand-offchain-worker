@@ -19,6 +19,8 @@ import (
 )
 
 var addr = flag.String("addr", "localhost:8080", "http service address")
+// Token
+// KEY
 
 func main() {
 	flag.Parse()
