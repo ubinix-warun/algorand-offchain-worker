@@ -1,3 +1,4 @@
+from time import time, sleep
 from typing import Tuple, List
 
 from algosdk.v2client.algod import AlgodClient
@@ -54,7 +55,7 @@ def createOffChainApp(
     """
     approval, clear = getContracts(client)
 
-    globalSchema = transaction.StateSchema(num_uints=7, num_byte_slices=2)
+    globalSchema = transaction.StateSchema(num_uints=0, num_byte_slices=3)
     localSchema = transaction.StateSchema(num_uints=0, num_byte_slices=0)
 
     app_args = [
@@ -85,3 +86,70 @@ def createOffChainApp(
     assert response.applicationIndex is not None and response.applicationIndex > 0
     return response.applicationIndex
 
+def waitOffChainAppReadyToRequest(
+    client: AlgodClient,
+    appID: int,
+    timeout: int
+) -> None:
+    """Wait a new offchain.
+
+    Args:
+        client: An algod client.
+        appID: The app ID of the offchain.
+        timeout: Expire waiting loop in second.
+    """
+
+    appAddr = get_application_address(appID)
+    appGlobalState = getAppGlobalState(client, appID)
+
+    count = 0
+    for a in range(timeout):
+        sleep(1)
+        count = count + 1
+        state = appGlobalState[b"state"]
+        if state != b"IDLE":
+            print(" On " + state.decode('UTF-8') + " ... " + str(count) + "s")
+        else:
+            break
+
+
+def requestDataFeed(
+    client: AlgodClient,
+    operator: Account,
+    appID: int,
+    method: any,
+    url: any,
+) -> int:
+    """Request the data feed.
+
+    Args:
+        client: An algod client.
+        operator: The account that will create the offchain application.
+        method: .
+        url: .
+
+    Returns:
+        .
+    """
+    approval, clear = getContracts(client)
+
+    app_args = [
+        method,
+        url,
+    ]
+
+    suggestedParams = client.suggested_params()
+
+    appCallTxn = transaction.ApplicationCallTxn(
+        sender=operator.getAddress(),
+        index=appID,
+        on_complete=transaction.OnComplete.NoOpOC,
+        app_args=app_args,
+        sp=suggestedParams,
+    )
+
+    signedAppCallTxn = appCallTxn.sign(operator.getPrivateKey())
+    client.send_transaction(signedAppCallTxn)
+
+    response = waitForTransaction(client, signedAppCallTxn.get_txid())
+    
