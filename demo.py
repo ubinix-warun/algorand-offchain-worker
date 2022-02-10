@@ -17,7 +17,8 @@ from jsonpath_ng import jsonpath, parse
 
 from offchain.subscriber import (
     subscriber,
-    subscriber_run
+    subscriber_run,
+    subscriber_exit
 )
 
 from offchain.util import (
@@ -78,7 +79,7 @@ def demo():
                 # Result data from Offchain Data
                 respData = price[0].value 
 
-                 # Feed data to Algorand blockchain
+                # Feed data to Algorand blockchain
                 updateDataFeed(
                     client=client,
                     operator=creator,
@@ -95,6 +96,7 @@ def demo():
     print(
         "Call \"get ETH/USD price\" to Offchain Contract.\n",
     )       
+    # Request ETH/USD DataFeed!
     requestDataFeed(
         client=client,
         operator=creator,
@@ -112,12 +114,14 @@ def demo():
 
     print("Operator's stored (respdata)")
 
+    # Read Data from Blockchain!
     gs = getAppGlobalState(
             client=client,
             appID=appID)
     
     print("\nOn-chain ETH/USD price is",gs[b"respdata"])
-    sys.exit()
+    
+    subscriber_exit()
     
 demo()
 
