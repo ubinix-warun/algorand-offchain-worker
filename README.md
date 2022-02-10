@@ -12,31 +12,68 @@ https://gitcoin.co/issue/algorandfoundation/grow-algorand/132/100027512
 
 # Quickstart
 
+Create sandbox docker, algod and indexer.
+
+```
+./sandbox up -v
+Pulling sandbox... (POC: Pubsub Event)
+...
+Checkout sandbox... (Branch: Pubsub Event)
+Branch 'develop-pub' set up to track remote branch 'develop-pub' from 'origin'.
+Switched to a new branch 'develop-pub'
+...
+
+algod version
+12885032963
+3.2.3.stable [rel/stable] (commit #d2289a52)
+go-algorand is licensed with AGPLv3.0
+source code available at https://github.com/algorand/go-algorand
+
+Indexer version
+2.8.0-dev.unknown compiled at 2022-02-10T10:17:02+0000 from git hash 94894866ce238f157ee416c83b6cd6c4b61bf6f0 (modified)
+
+Postgres version
+postgres (PostgreSQL) 13.5
+...
+
+
+```
+
+Setup python env.
+
 ```
 python3 -m venv venv
 . venv/bin/activate
 
 pip3 install -r requirements.txt
+
+```
+
+
+```
 python3 demo.py 
 
 Generating temporary accounts...
-offchain creator account:  W77HA6WPJBR52RNGXGCKDGIZKSE65F2HJS4XAQ6Y7RQQ6J2TWQQ6CJI2ZA
-Done. The OffChain app ID is 594 
-and the offchain account is M475MATP7W4BDX35R5PO7VYFE4GO2EYZRBGMSTIFW7UBL3L3T65NKLDONQ 
+offchain creator account:  NCA5LCK7HQD35PNEMACJ2M76KPTGWWDEAXHPPATB7LCVOIM5QVSCLZVEAU
+Done. The OffChain app ID is 17 
+and the offchain account is QUT2ZXGAS7AGEW2Z5OIXRK2WZNLZ3FZMWMJDRAN7ESRI32U67SLYB3HDXE 
 
 Subscriber's connected to ws://localhost:1323/ws 
 
- On REQ ... 1s
- On REQ ... 2s
- ...
+Call "get ETH/USD price" to Offchain Contract.
 
- On REQ ... 11s
- On INPRG ... 12s
-Inprogress 'get' https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD
- On INPRG ... 13s
- On INPRG ... 14s
- ...
- On INPRG ... 17s
+Operator state [ NULL => REQ ] at counter= 1s
+Operator state [ REQ => INPRG ] at counter= 12s
+Operator sending ... 
+ http request 
+   method= get 
+   url= https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD 
+   path= RAW.ETH.USD.PRICE
+Operator state [ INPRG => DONE ] at counter= 20s
+Operator's stored (respdata)
+
+On-chain ETH/USD price is b'3252.92'
+
 
 ```
 
