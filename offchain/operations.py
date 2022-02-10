@@ -55,7 +55,7 @@ def createOffChainApp(
     """
     approval, clear = getContracts(client)
 
-    globalSchema = transaction.StateSchema(num_uints=0, num_byte_slices=3)
+    globalSchema = transaction.StateSchema(num_uints=0, num_byte_slices=5)
     localSchema = transaction.StateSchema(num_uints=0, num_byte_slices=0)
 
     app_args = [
@@ -100,15 +100,18 @@ def waitOffChainAppReadyToRequest(
     """
 
     appAddr = get_application_address(appID)
-    appGlobalState = getAppGlobalState(client, appID)
 
     count = 0
     for a in range(timeout):
         sleep(1)
+        appGlobalState = getAppGlobalState(client, appID)
         count = count + 1
         state = appGlobalState[b"state"]
-        if state != b"IDLE":
+        if state == b"IDLE" or state == b"REQ" or state == b"INPRG":
             print(" On " + state.decode('UTF-8') + " ... " + str(count) + "s")
+        elif state == b"DONE":
+            print(" On " + state.decode('UTF-8') + " ... " + str(count) + "s")
+            break
         else:
             break
 
@@ -119,6 +122,7 @@ def requestDataFeed(
     appID: int,
     method: any,
     url: any,
+    path: any,
 ) -> int:
     """Request the data feed.
 
@@ -136,6 +140,80 @@ def requestDataFeed(
     app_args = [
         method,
         url,
+        path,
+    ]
+
+    suggestedParams = client.suggested_params()
+
+    appCallTxn = transaction.ApplicationCallTxn(
+        sender=operator.getAddress(),
+        index=appID,
+        on_complete=transaction.OnComplete.NoOpOC,
+        app_args=app_args,
+        sp=suggestedParams,
+    )
+
+    signedAppCallTxn = appCallTxn.sign(operator.getPrivateKey())
+    client.send_transaction(signedAppCallTxn)
+
+    response = waitForTransaction(client, signedAppCallTxn.get_txid())
+    
+
+def ackDataFeed(
+    client: AlgodClient,
+    operator: Account,
+    appID: int,
+) -> int:
+    """Acknowledge the data feed.
+
+    Args:
+        client: An algod client.
+        operator: The account that will create the offchain application.
+
+    Returns:
+        .
+    """
+    approval, clear = getContracts(client)
+
+    app_args = [
+        b"ack",
+    ]
+
+    suggestedParams = client.suggested_params()
+
+    appCallTxn = transaction.ApplicationCallTxn(
+        sender=operator.getAddress(),
+        index=appID,
+        on_complete=transaction.OnComplete.NoOpOC,
+        app_args=app_args,
+        sp=suggestedParams,
+    )
+
+    signedAppCallTxn = appCallTxn.sign(operator.getPrivateKey())
+    client.send_transaction(signedAppCallTxn)
+
+    response = waitForTransaction(client, signedAppCallTxn.get_txid())
+    
+def updateDataFeed(
+    client: AlgodClient,
+    operator: Account,
+    appID: int,
+    respData: str,
+) -> int:
+    """update the data feed.
+
+    Args:
+        client: An algod client.
+        operator: The account that will create the offchain application.
+
+    Returns:
+        .
+    """
+    approval, clear = getContracts(client)
+
+    app_args = [
+        b"done",
+        respData
     ]
 
     suggestedParams = client.suggested_params()

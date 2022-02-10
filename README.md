@@ -24,11 +24,19 @@ offchain creator account:  W77HA6WPJBR52RNGXGCKDGIZKSE65F2HJS4XAQ6Y7RQQ6J2TWQQ6C
 Done. The OffChain app ID is 594 
 and the offchain account is M475MATP7W4BDX35R5PO7VYFE4GO2EYZRBGMSTIFW7UBL3L3T65NKLDONQ 
 
-Request.  get <>  https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD 
+Subscriber's connected to ws://localhost:1323/ws 
 
  On REQ ... 1s
  On REQ ... 2s
- On REQ ... 3s
+ ...
+
+ On REQ ... 11s
+ On INPRG ... 12s
+Inprogress 'get' https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD
+ On INPRG ... 13s
+ On INPRG ... 14s
+ ...
+ On INPRG ... 17s
 
 ```
 
