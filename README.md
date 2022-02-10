@@ -4,7 +4,7 @@ In my demo, offchain worker will subscribe event from the indexer, feed data to 
 
 * [The Indexer](https://github.com/ubinix-warun/algorand-indexer) /develop-pub, support pubsub service and publish block.ApplyData to subscriber.
 * [The Sandbox](https://github.com/ubinix-warun/algorand-sandbox) /develop-pub, config dockerfile for my indexer and ready to run offchain contract.
-* [Offchain Worker](https://github.com/ubinix-warun/algorand-sandbox) setup offchain contract and operator.
+* [Offchain Worker](https://github.com/ubinix-warun/algorand-offchain-worker) setup offchain contract and operator.
 
 **the project is not audited and should not be used in a production environment.
 
@@ -18,7 +18,7 @@ Inspried by [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-p
 https://gitcoin.co/issue/algorandfoundation/grow-algorand/132/100027512
 
 
-### [Sandbox up & Demo.py](https://www.youtube.com/watch?v=)
+### [Sandbox up & Demo.py](https://www.youtube.com/watch?v=LEt7SXV76z0)
 
 # Quickstart
 
