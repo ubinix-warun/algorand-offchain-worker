@@ -1,3 +1,4 @@
+import sys
 from time import time, sleep
 
 from algosdk import account, encoding
@@ -19,6 +20,10 @@ from offchain.subscriber import (
     subscriber_run
 )
 
+from offchain.util import (
+    getAppGlobalState,
+)
+
 from offchain.testing.setup import getAlgodClient
 from offchain.testing.resources import (
     getTemporaryAccount,
@@ -32,6 +37,7 @@ def demo():
 
     print("offchain creator account: ", creator.getAddress())
 
+    # Create Offchain contract.
     appID = createOffChainApp(
         client=client,
         operator=creator
@@ -44,7 +50,8 @@ def demo():
         "\n",
     )
 
-    def on_msg_globalstate(gs): # Feeding Func to Algofrom Algorand blockchaind
+    # Feeding Func to Algofrom Algorand blockchain
+    def on_msg_globalstate(gs): 
 
         if gs['state']['Bytes'] == "REQ":
             if gs['reqm']['Bytes'] == "get":
@@ -59,7 +66,7 @@ def demo():
                 url = gs['requrl']['Bytes']
                 path = gs['path']['Bytes']
 
-                print("Request to \n   method=",method, 
+                print("Operator sending ... \n http request \n   method=",method, 
                                 "\n   url=", url, 
                                 "\n   path=", path)
                 resp = requests.get(url)
@@ -68,7 +75,8 @@ def demo():
                 jsonpath_expr= parse(path)
                 price = jsonpath_expr.find(json_data)
 
-                respData = price[0].value # Result data from Offchain Data
+                # Result data from Offchain Data
+                respData = price[0].value 
 
                  # Feed data to Algorand blockchain
                 updateDataFeed(
@@ -78,10 +86,15 @@ def demo():
                     respData=bytes(str(respData), 'utf-8'),
                 )
                 
-
+    # Subscribe Event from Algorand blockchain
     subscriber_run("ws://localhost:1323/ws",
-                on_msg_globalstate) # Subscribe Event from Algorand blockchain
-    
+                on_msg_globalstate) 
+
+    sleep(3)
+
+    print(
+        "Call \"get ETH/USD price\" to Offchain Contract.\n",
+    )       
     requestDataFeed(
         client=client,
         operator=creator,
@@ -96,10 +109,17 @@ def demo():
         appID=appID,
         timeout = 50,
     )
+
+    print("Operator's stored (respdata)")
+
+    gs = getAppGlobalState(
+            client=client,
+            appID=appID)
+    
+    print("\nOn-chain ETH/USD price is",gs[b"respdata"])
+    sys.exit()
     
 demo()
 
 
-# Concat(Bytes("[\""), Bytes("get"), Bytes("\",\""))
-# ["get","https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD", "path", "RAW.ETH.USD.PRICE", "times", "100000000"]
 # let parameters = ("get", "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD", "path", "RAW.ETH.USD.PRICE", "times", "100000000");

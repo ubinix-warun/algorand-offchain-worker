@@ -101,18 +101,19 @@ def waitOffChainAppReadyToRequest(
 
     appAddr = get_application_address(appID)
 
+    currentState = b"NULL"
     count = 0
     for a in range(timeout):
         sleep(1)
         appGlobalState = getAppGlobalState(client, appID)
         count = count + 1
         state = appGlobalState[b"state"]
-        if state == b"IDLE" or state == b"REQ" or state == b"INPRG":
-            print(" On " + state.decode('UTF-8') + " ... " + str(count) + "s")
-        elif state == b"DONE":
-            print(" On " + state.decode('UTF-8') + " ... " + str(count) + "s")
-            break
-        else:
+        if currentState != state:
+            print("Operator state [", currentState.decode('UTF-8'),
+                     "=>", state.decode('UTF-8'), "] at counter=", str(count) + "s")
+            currentState = state
+
+        if currentState == b"DONE":
             break
 
 
@@ -123,17 +124,17 @@ def requestDataFeed(
     method: any,
     url: any,
     path: any,
-) -> int:
+) -> None:
     """Request the data feed.
 
     Args:
         client: An algod client.
         operator: The account that will create the offchain application.
-        method: .
-        url: .
+        appID: The app ID of the offchain.
+        method: "get", etc.
+        url: The url used by operator to get data.
+        path: Ref. to json data, in JSON path (like xpath)
 
-    Returns:
-        .
     """
     approval, clear = getContracts(client)
 
@@ -163,15 +164,14 @@ def ackDataFeed(
     client: AlgodClient,
     operator: Account,
     appID: int,
-) -> int:
+) -> None:
     """Acknowledge the data feed.
 
     Args:
         client: An algod client.
         operator: The account that will create the offchain application.
+        appID: The app ID of the offchain.
 
-    Returns:
-        .
     """
     approval, clear = getContracts(client)
 
@@ -199,15 +199,15 @@ def updateDataFeed(
     operator: Account,
     appID: int,
     respData: str,
-) -> int:
+) -> None:
     """update the data feed.
 
     Args:
         client: An algod client.
         operator: The account that will create the offchain application.
+        appID: The app ID of the offchain.
+        respData: Stored data.
 
-    Returns:
-        .
     """
     approval, clear = getContracts(client)
 

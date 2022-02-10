@@ -30,8 +30,10 @@ def subscriber(addr, on_msg_globalstate):
                               on_error=sub_on_error,
                               on_close=sub_on_close)
     wsapp.run_forever(sockopt=((socket.IPPROTO_TCP, socket.TCP_NODELAY,1),))
-
+    
 
 def subscriber_run(addr,on_msg_globalstate):
     x = threading.Thread(target=subscriber, args=(addr,on_msg_globalstate,))
     x.start()
+
+    return x
