@@ -2,7 +2,11 @@
 
 In my demo, offchain worker will subscribe event from the indexer, feed some-data to algod via TEAL contract.
 
-Inspried by [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-polkadot/tree/master/pallet-chainlink)
+* [The Indexer](https://github.com/ubinix-warun/algorand-indexer) /develop-pub, support pubsub service and publish block.ApplyData to subsctiber.
+* [The Sandbox](https://github.com/ubinix-warun/algorand-sandbox) /develop-pub, config dockerfile for my indexer and ready to run offchain contract.
+
+Inspried by [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-polkadot/tree/master/pallet-chainlink) and [MIT LICENSE](https://github.com/ubinix-warun/algorand-offchain-worker/blob/master/LICENSE)
+
 
 ### Algorand Challenge: Developer Tooling
 
@@ -10,9 +14,12 @@ Inspried by [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-p
 
 https://gitcoin.co/issue/algorandfoundation/grow-algorand/132/100027512
 
+
+### [Sandbox up & Demo.py](https://www.youtube.com/watch?v=)
+
 # Quickstart
 
-Create sandbox docker, algod and indexer.
+* Create sandbox docker, algod and indexer.
 
 ```
 ./sandbox up -v
@@ -30,25 +37,25 @@ go-algorand is licensed with AGPLv3.0
 source code available at https://github.com/algorand/go-algorand
 
 Indexer version
-2.8.0-dev.unknown compiled at 2022-02-10T10:17:02+0000 from git hash 94894866ce238f157ee416c83b6cd6c4b61bf6f0 (modified)
+2.8.0-dev.unknown compiled at 2022-02-10T10:17:02+0000 
+    from git hash 94894866ce238f157ee416c83b6cd6c4b61bf6f0 (modified)
 
 Postgres version
 postgres (PostgreSQL) 13.5
 ...
 
-
 ```
 
-Setup python env.
+* Setup python env.
 
 ```
 python3 -m venv venv
 . venv/bin/activate
 
 pip3 install -r requirements.txt
-
 ```
 
+* Run demo script.
 
 ```
 python3 demo.py 
@@ -74,7 +81,12 @@ Operator's stored (respdata)
 
 On-chain ETH/USD price is b'3252.92'
 
-
 ```
 
+
+# Credit
+
+* [PyTEAL/Algorand](https://developer.algorand.org/docs/get-details/dapps/pyteal/) - The python library for generating TEAL programs that provides a convenient and familiar syntax.
+* [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-polkadot/tree/master/pallet-chainlink) - This pallet allows your substrate built parachain/blockchain to interract with chainlink. 
+* [auction-demo](https://github.com/algorand/auction-demo/) - This demo is an on-chain NFT auction using smart contracts on the Algorand blockchain.
 
