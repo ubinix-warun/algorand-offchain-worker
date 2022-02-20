@@ -51,7 +51,7 @@ def demo():
         "\n",
     )
 
-    # Feeding Func to Algofrom Algorand blockchain
+    # Feeding Func to Algorand blockchain
     def on_msg_globalstate(gs): 
 
         if gs['state']['Bytes'] == "REQ":
