@@ -11,13 +11,6 @@ In my demo, offchain worker will subscribe event from the indexer, feed data to 
 Inspried by [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-polkadot/tree/master/pallet-chainlink) and [MIT LICENSE](https://github.com/ubinix-warun/algorand-offchain-worker/blob/master/LICENSE)
 
 
-### Algorand Challenge: Developer Tooling
-
-![PT2](https://raw.githubusercontent.com/ubinix-warun/algorand-offchain-worker/main/doc/assets/gitcoin_bounties.png)
-
-https://gitcoin.co/issue/algorandfoundation/grow-algorand/132/100027512
-
-
 ### [Sandbox up & Demo.py](https://www.youtube.com/watch?v=LEt7SXV76z0)
 
 # Quickstart
@@ -93,4 +86,11 @@ On-chain ETH/USD price is b'3252.92'
 * [PyTEAL](https://developer.algorand.org/docs/get-details/dapps/pyteal/) - The python library for generating TEAL programs that provides a convenient and familiar syntax.
 * [chainlink-polkadot](https://github.com/smartcontractkit/chainlink-polkadot/tree/master/pallet-chainlink) - This pallet allows your substrate built parachain/blockchain to interract with chainlink. 
 * [auction-demo](https://github.com/algorand/auction-demo/) - This demo is an on-chain NFT auction using smart contracts on the Algorand blockchain.
+
+### Algorand Challenge: Developer Tooling
+
+![PT2](https://raw.githubusercontent.com/ubinix-warun/algorand-offchain-worker/main/doc/assets/gitcoin_bounties.png)
+
+https://gitcoin.co/issue/algorandfoundation/grow-algorand/132/100027512
+
 
